@@ -9,6 +9,7 @@ import './UserNavbar.css';
 const UserNavbar = () => {
     const { user, isAuthenticated } = useSelector((state) => state.auth);
     const { totalQuantity } = useSelector((state) => state.cart);
+    const { items: wishlistItems } = useSelector((state) => state.wishlist);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
@@ -37,8 +38,13 @@ const UserNavbar = () => {
                         </Nav.Link>
                     </Nav>
                     <Nav className="align-items-center">
-                        <Nav.Link as={Link} to="/wishlist" className={`nav-link-custom ${isActive('/wishlist')}`}>
-                            <FaHeart className="nav-icon" /> Wishlist
+                        <Nav.Link as={Link} to="/wishlist" className={`nav-link-custom me-3 ${isActive('/wishlist')}`}>
+                            <div className="d-flex align-items-center position-relative">
+                                <FaHeart className="nav-icon" /> <span className="ms-1">Wishlist</span>
+                                {wishlistItems.length > 0 && (
+                                    <Badge className="badge-custom">{wishlistItems.length}</Badge>
+                                )}
+                            </div>
                         </Nav.Link>
 
                         <Nav.Link as={Link} to="/cart" className={`nav-link-custom me-3 ${isActive('/cart')}`}>

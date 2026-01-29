@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../../store/cartSlice';
+import { addToWishlist } from '../../../store/wishlistSlice';
 import { FaHeart, FaShoppingCart, FaSearch, FaFilter } from 'react-icons/fa';
 import './Products.css';
 
 const Products = () => {
+    const dispatch = useDispatch();
+    const { items: cartItems } = useSelector((state) => state.cart);
+    const { items: wishlistItems } = useSelector((state) => state.wishlist);
     // Mock Data
     const products = [
         { id: 1, name: 'Pastel Hoodie', price: 1499, img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60', category: 'Men' },
         { id: 2, name: 'Urban Jacket', price: 3999, img: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60', category: 'Men' },
         { id: 3, name: 'Summer Dress', price: 2499, img: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60', category: 'Women' },
         { id: 4, name: 'Comfy Sneakers', price: 2999, img: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60', category: 'Shoes' },
-        { id: 5, name: 'Leather Bag', price: 4599, img: 'https://images.unsplash.com/photo-1590874103328-98e0ebd997fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60', category: 'Accessories' },
-        { id: 6, name: 'Denim Jeans', price: 1999, img: 'https://images.unsplash.com/photo-1542272617-08f086303294?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60', category: 'Men' },
+        { id: 5, name: 'Leather Bag', price: 4599, img: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60', category: 'Accessories' },
+        { id: 6, name: 'Denim Jeans', price: 1999, img: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60', category: 'Men' },
     ];
 
     const [filterCategory, setFilterCategory] = useState([]);
@@ -25,6 +31,16 @@ const Products = () => {
                 ? prev.filter(c => c !== category)
                 : [...prev, category]
         );
+    };
+
+    const handleAddToCart = (product) => {
+        dispatch(addToCart({ ...product, quantity: 1 }));
+        alert(`${product.name} added to cart!`);
+    };
+
+    const handleAddToWishlist = (product) => {
+        dispatch(addToWishlist(product));
+        alert(`${product.name} added to wishlist!`);
     };
 
     const filteredProducts = products.filter(product => {
@@ -105,14 +121,26 @@ const Products = () => {
                                                 <div className="product-grid-img-wrapper">
                                                     <img src={product.img} alt={product.name} className="product-grid-img" />
                                                     <div className="product-actions">
-                                                        <button className="action-btn" onClick={(e) => {
-                                                            e.preventDefault();
-                                                            // Add to Cart Logic 
-                                                        }}><FaShoppingCart /></button>
-                                                        <button className="action-btn" onClick={(e) => {
-                                                            e.preventDefault();
-                                                            // Add to Wishlist Logic
-                                                        }}><FaHeart /></button>
+                                                        <button
+                                                            className="action-btn"
+                                                            style={{ color: cartItems.find(i => i.id === product.id) ? '#e91e63' : 'inherit' }}
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                handleAddToCart(product);
+                                                            }}
+                                                        >
+                                                            <FaShoppingCart />
+                                                        </button>
+                                                        <button
+                                                            className="action-btn"
+                                                            style={{ color: wishlistItems.find(i => i.id === product.id) ? '#e91e63' : 'inherit' }}
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                handleAddToWishlist(product);
+                                                            }}
+                                                        >
+                                                            <FaHeart />
+                                                        </button>
                                                     </div>
                                                 </div>
                                                 <Card.Body className="text-center">
