@@ -1,0 +1,229 @@
+/* Products Page Styles */
+.products-page-header {
+    background: linear-gradient(to right, #f8f9fa, #e9ecef);
+    padding: 60px 0;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.filter-sidebar {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.filter-section {
+    margin-bottom: 25px;
+}
+
+.filter-title {
+    font-weight: 700;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.custom-checkbox .form-check-input:checked {
+    background-color: #ff4b2b;
+    border-color: #ff4b2b;
+}
+
+.price-range-slider {
+    width: 100%;
+}
+
+.product-grid-card {
+    border: none;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    height: 100%;
+    background: white;
+    cursor: pointer;
+}
+
+.product-grid-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.product-grid-img-wrapper {
+    position: relative;
+    padding-top: 100%;
+    /* 1:1 Aspect Ratio */
+    overflow: hidden;
+    border-radius: 15px 15px 0 0;
+}
+
+.product-grid-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.product-grid-card:hover .product-grid-img {
+    transform: scale(1.1);
+}
+
+.product-actions {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    transition: bottom 0.3s ease;
+}
+
+.product-grid-card:hover .product-actions {
+    bottom: 0;
+}
+
+.action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    background: #ff4b2b;
+    color: white;
+}
+
+/* Product Detail Styles */
+.product-detail-page {
+    padding: 50px 0;
+    background: #fafafa;
+}
+
+.product-gallery {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    background: white;
+}
+
+.main-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+.thumbnail-container {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    overflow-x: auto;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.7;
+}
+
+.thumbnail.active {
+    border-color: #ff4b2b;
+    opacity: 1;
+}
+
+.product-info {
+    padding: 20px;
+}
+
+.product-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    font-size: 2rem;
+    color: #ff4b2b;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.product-rating {
+    color: #ffc107;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.size-selector button {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: white;
+    margin-right: 10px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.size-selector button.active {
+    background: #333;
+    color: white;
+    border-color: #333;
+}
+
+.quantity-control {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.quantity-btn {
+    border: none;
+    background: white;
+    padding: 8px 15px;
+    font-weight: bold;
+}
+
+.quantity-input {
+    border: none;
+    width: 50px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.btn-add-cart {
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+}
+
+.btn-add-cart:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 75, 43, 0.5);
+}

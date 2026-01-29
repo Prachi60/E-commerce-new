@@ -1,0 +1,127 @@
+.admin-sidebar {
+    width: 260px;
+    height: 100vh;
+    background: linear-gradient(180deg, #1c1c1e 0%, #2c2c2e 100%);
+    color: #fff;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+}
+
+.sidebar-nav {
+    padding: 20px 0;
+    height: calc(100vh - 140px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 25px;
+    color: #a0a0a0 !important;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.sidebar-link:hover {
+    background: rgba(255, 75, 43, 0.05);
+    color: #fff !important;
+}
+
+.sidebar-link.active {
+    background: rgba(255, 75, 43, 0.1);
+    color: #ff4b2b !important;
+    border-left-color: #ff4b2b;
+}
+
+.sidebar-icon {
+    margin-right: 15px;
+    font-size: 1.1rem;
+    width: 20px;
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: #1c1c1e;
+    /* Ensure background is solid */
+}
+
+/* Close button for mobile sidebar */
+.btn-close-sidebar {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    display: none;
+    /* Hidden on desktop */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 991px) {
+    .admin-sidebar {
+        transform: translateX(-100%);
+    }
+
+    .admin-sidebar.open {
+        transform: translateX(0);
+    }
+
+    .btn-close-sidebar {
+        display: block;
+    }
+}
+
+/* Overlay for mobile */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* Main Content Layout Styles to be used in AdminLayout */
+.admin-main-content {
+    margin-left: 260px;
+    background-color: #f4f6f9;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+@media (max-width: 991px) {
+    .admin-main-content {
+        margin-left: 0;
+    }
+}
