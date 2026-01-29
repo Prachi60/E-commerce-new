@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../../store/cartSlice';
+import { addToWishlist } from '../../../store/wishlistSlice';
 import { Container, Row, Col, Button, Badge } from 'react-bootstrap';
 import { FaHeart, FaStar, FaShoppingCart, FaTruck, FaUndo } from 'react-icons/fa';
 import './Products.css';
 
 const ProductDetail = () => {
     const { id } = useParams();
+    const dispatch = useDispatch();
+    const { items: cartItems } = useSelector((state) => state.cart);
+    const { items: wishlistItems } = useSelector((state) => state.wishlist);
     const [selectedSize, setSelectedSize] = useState('M');
     const [quantity, setQuantity] = useState(1);
     const [mainImage, setMainImage] = useState('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60');
@@ -23,6 +29,28 @@ const ProductDetail = () => {
             'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60', // Mock Extra 1
             'https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60'  // Mock Extra 2
         ]
+    };
+
+    const handleAddToCart = () => {
+        dispatch(addToCart({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            img: product.images[0],
+            quantity: quantity,
+            size: selectedSize
+        }));
+        alert(`${product.name} added to cart!`);
+    };
+
+    const handleAddToWishlist = () => {
+        dispatch(addToWishlist({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            img: product.images[0]
+        }));
+        alert(`${product.name} added to wishlist!`);
     };
 
     return (
@@ -86,10 +114,19 @@ const ProductDetail = () => {
                                         <input type="text" className="quantity-input" value={quantity} readOnly />
                                         <button className="quantity-btn" onClick={() => setQuantity(quantity + 1)}>+</button>
                                     </div>
-                                    <Button className="btn-add-cart flex-grow-1">
+                                    <Button
+                                        className="btn-add-cart flex-grow-1"
+                                        style={{ backgroundColor: cartItems.find(i => i.id === product.id) ? '#e91e63' : '', borderColor: cartItems.find(i => i.id === product.id) ? '#e91e63' : '' }}
+                                        onClick={handleAddToCart}
+                                    >
                                         <FaShoppingCart className="me-2" /> Add to Cart
                                     </Button>
-                                    <Button variant="outline-danger" className="rounded-circle p-3">
+                                    <Button
+                                        variant="outline-danger"
+                                        className="rounded-circle p-3"
+                                        style={{ color: wishlistItems.find(i => i.id === product.id) ? '#e91e63' : '', borderColor: wishlistItems.find(i => i.id === product.id) ? '#e91e63' : '' }}
+                                        onClick={handleAddToWishlist}
+                                    >
                                         <FaHeart />
                                     </Button>
                                 </div>

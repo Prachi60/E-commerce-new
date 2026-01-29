@@ -1,11 +1,18 @@
 import React from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaShippingFast, FaHeadset, FaUndo, FaShieldAlt } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../../store/cartSlice';
+import { addToWishlist } from '../../../store/wishlistSlice';
+import { FaShippingFast, FaHeadset, FaUndo, FaShieldAlt, FaGift, FaShoppingCart, FaHeart } from 'react-icons/fa';
 import accessoriesImg from '../../../assets/accessories-category.png';
 import './Home.css';
 
 const Home = () => {
+    const dispatch = useDispatch();
+    const { isAuthenticated, user } = useSelector((state) => state.auth);
+    const { items: cartItems } = useSelector((state) => state.cart);
+    const { items: wishlistItems } = useSelector((state) => state.wishlist);
 
     const categories = [
         { id: 1, name: 'Women Fashion', img: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60' },
@@ -19,6 +26,16 @@ const Home = () => {
         { id: 3, name: 'Classic Sneakers', price: 89.99, img: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60', badge: 'Sale' },
         { id: 4, name: 'Silk Scarf', price: 29.99, img: 'https://images.unsplash.com/photo-1581338834647-b0fb40704e21?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60', badge: '' },
     ];
+
+    const handleAddToCart = (product) => {
+        dispatch(addToCart({ ...product, quantity: 1 }));
+        alert(`${product.name} added to cart!`);
+    };
+
+    const handleAddToWishlist = (product) => {
+        dispatch(addToWishlist(product));
+        alert(`${product.name} added to wishlist!`);
+    };
 
     return (
         <div className="home-page">
@@ -43,6 +60,27 @@ const Home = () => {
                     </Row>
                 </Container>
             </section>
+
+            {/* Authenticated User Banner */}
+            {isAuthenticated && (
+                <section className="user-welcome-banner mt-5 mx-3">
+                    <Container fluid>
+                        <div className="welcome-banner-content">
+                            <div className="welcome-text">
+                                <h2>Welcome back, {user?.name?.split(' ')[0]}! <span role="img" aria-label="wave">👋</span></h2>
+                                <p>We missed you! Here is an exclusive offer just for you.</p>
+                            </div>
+                            <div className="welcome-offer">
+                                <div className="offer-badge">
+                                    <FaGift className="me-2" />
+                                    <span>FLAT 20% OFF</span>
+                                </div>
+                                <p className="offer-code">Use Code: <strong>WELCOME20</strong></p>
+                            </div>
+                        </div>
+                    </Container>
+                </section>
+            )}
 
             {/* Features Info Section */}
             <section className="features-section mt-5 mb-5 mx-3">
@@ -115,16 +153,32 @@ const Home = () => {
                     <Row>
                         {trendingProducts.map(product => (
                             <Col lg={3} md={6} xs={12} key={product.id} className="mb-4">
-                                <Card className="product-card-home h-100">
+                                <Card className="product-card-home h-100 shadow-sm border-0">
                                     <div className="product-img-wrapper">
                                         <img src={product.img} alt={product.name} className="product-img-home" />
                                         {product.badge && <span className="product-badge">{product.badge}</span>}
+                                        <div className="product-actions-home">
+                                            <button
+                                                className="action-btn-home"
+                                                style={{ color: cartItems.find(i => i.id === product.id) ? '#e91e63' : 'inherit' }}
+                                                onClick={() => handleAddToCart(product)}
+                                            >
+                                                <FaShoppingCart />
+                                            </button>
+                                            <button
+                                                className="action-btn-home"
+                                                style={{ color: wishlistItems.find(i => i.id === product.id) ? '#e91e63' : 'inherit' }}
+                                                onClick={() => handleAddToWishlist(product)}
+                                            >
+                                                <FaHeart />
+                                            </button>
+                                        </div>
                                     </div>
-                                    <Card.Body>
-                                        <Card.Title>{product.name}</Card.Title>
-                                        <Card.Text className="fw-bold text-primary">₹{product.price}</Card.Text>
+                                    <Card.Body className="text-center">
+                                        <Card.Title className="h6 fw-bold">{product.name}</Card.Title>
+                                        <Card.Text className="fw-bold text-danger">₹{product.price}</Card.Text>
                                         <Link to={`/products/${product.id}`}>
-                                            <Button variant="outline-dark" size="sm" className="w-100 rounded-pill">View Details</Button>
+                                            <Button variant="outline-dark" size="sm" className="w-100 rounded-pill mt-2">View Details</Button>
                                         </Link>
                                     </Card.Body>
                                 </Card>
